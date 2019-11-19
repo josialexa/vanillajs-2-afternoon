@@ -165,6 +165,15 @@
 </body>
 
 <script>
+    window.addEventListener('keypress', (e) => {
+        let tone = document.querySelectorAll(`audio[data-key='${e.keyCode}']`)[0];
+        let pianoKey = document.querySelectorAll(`polygon[data-key='${e.keyCode}']`)[0];
+
+        if(!tone) return;
+
+        tone.currentTime = 0;
+        tone.play();
+    })
 </script>
 
 </html>
