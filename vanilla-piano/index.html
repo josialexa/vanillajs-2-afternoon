@@ -172,7 +172,12 @@
         if(!tone) return;
 
         tone.currentTime = 0;
+
+        pianoKey.classList.add('pressed');
+
         tone.play();
+
+        setTimeout(() => {pianoKey.classList.remove('pressed')}, 300);
     })
 </script>
 
