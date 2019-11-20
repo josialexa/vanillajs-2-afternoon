@@ -44,6 +44,7 @@
             border: 1px solid rgba(0, 0, 0, 0.2);
             border-radius: 4px;
             box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+            display: none;
         }
 
         li:hover {
@@ -87,6 +88,7 @@
     let characters = [];
     let list = document.getElementById('list');
     let search = document.querySelector('input');
+    let selected = [];
 
     fetch('https://swapi.co/api/people')
     .then(response => response.ok ? response.json() : console.log(response))
@@ -101,6 +103,7 @@
         }).join('');
 
         list.innerHTML = html;
+        list.style.display = 'block';
     }
 
     const filterText = (e) => {
@@ -109,10 +112,24 @@
             return rx.test(v.name);
         });
 
-        if(filtered.length) render(filtered);
+        if(filtered.length && e.target.value.length > 0) {
+            render(filtered);
+        } else {
+            list.style.display = 'none';
+        }
+    }
+
+    const hold = (e) => {
+        let clicked = e.target.innerText;
+        if(selected.indexOf(clicked) == -1) {
+            selected.push(clicked);
+        }
+        console.log(selected);
     }
 
     search.addEventListener('keyup', filterText);
+
+    list.addEventListener('click', hold, true);
 </script>
 
 </html>
