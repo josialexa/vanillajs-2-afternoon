@@ -86,24 +86,33 @@
 <script>
     let characters = [];
     let list = document.getElementById('list');
-    console.log(list);
+    let search = document.querySelector('input');
 
     fetch('https://swapi.co/api/people')
     .then(response => response.ok ? response.json() : console.log(response))
     .then(json => {
         characters = json.results;
-        console.log(characters);
-        render();
         })
     .catch(e => console.log(e));
 
-    const render = () => {
-        let html = characters.map(v => {
+    const render = (arr) => {
+        let html = arr.map(v => {
             return `<li>${v.name}</li>`;
         }).join('');
 
         list.innerHTML = html;
     }
+
+    const filterText = (e) => {
+        let filtered = characters.filter(v => {
+            let rx = new RegExp(`${e.target.value}`, 'gi');
+            return rx.test(v.name);
+        });
+
+        if(filtered.length) render(filtered);
+    }
+
+    search.addEventListener('keyup', filterText);
 </script>
 
 </html>
